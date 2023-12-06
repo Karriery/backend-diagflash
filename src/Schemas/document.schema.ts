@@ -30,7 +30,7 @@ export class Document {
   nombreDenfantsEleves: number;
 
   @Prop()
-  etudeSuperieure: boolean;
+  etudeSuperieure: string;
 
   @Prop()
   ageSouhaiteDeDepart: number;
