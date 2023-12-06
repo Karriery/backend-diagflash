@@ -1,10 +1,19 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { HydratedDocument } from 'mongoose';
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import mongoose, { HydratedDocument } from "mongoose";
 
 export type tDocument = HydratedDocument<Document>;
 
 @Schema({ timestamps: true })
 export class Document {
+  @Prop()
+  nom: string;
+
+  @Prop()
+  email: string;
+
+  @Prop()
+  tel: string;
+
   @Prop()
   civilite: string;
 
@@ -12,7 +21,7 @@ export class Document {
   anneDeNaissance: string;
 
   @Prop()
-  situationFamiliale: string;
+  situationFamiliale: string[];
 
   @Prop()
   nombreDenfants: number;
@@ -24,19 +33,21 @@ export class Document {
   etudeSuperieure: boolean;
 
   @Prop()
-  ageSouhaiteDeDepart: boolean;
+  ageSouhaiteDeDepart: number;
 
   @Prop()
   ageDuDebutdactiviteProfessionnelle: string;
 
   @Prop()
-  avezVousEte: string;
+  avezVousEte: string[];
 
   @Prop()
-  avezVousRencontre: string;
+  avezVousRencontre: string[];
 
   @Prop()
   niveauActuel: string;
+
+  evolution: string;
 
   @Prop()
   titreIndividuel: string;
@@ -65,7 +76,7 @@ export class Document {
   @Prop()
   supplimentaires: string;
 
-  @Prop({ default: 'Document' })
+  @Prop({ default: "Document" })
   type: string;
 }
 
