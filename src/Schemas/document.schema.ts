@@ -2,6 +2,10 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import mongoose, { HydratedDocument } from "mongoose";
 
 export type tDocument = HydratedDocument<Document>;
+class Obj {
+  status: string;
+  text: string;
+}
 
 @Schema({ timestamps: true })
 export class Document {
@@ -47,6 +51,7 @@ export class Document {
   @Prop()
   niveauActuel: string;
 
+  @Prop()
   evolution: string;
 
   @Prop()
@@ -58,23 +63,41 @@ export class Document {
   @Prop()
   titreProfessionnelFacultatif: string;
 
-  @Prop()
-  conjoint: string;
+  @Prop({ type: Obj })
+  risqueTrimestre: {
+    status: string;
+    text: string;
+  };
 
-  @Prop()
-  vie: string;
+  @Prop({ type: Obj })
+  risqueComp: {
+    status: string;
+    text: string;
+  };
 
-  @Prop()
-  ageDeDepart: string;
+  @Prop({ type: Obj })
+  risqueSup: {
+    status: string;
+    text: string;
+  };
 
-  @Prop()
-  trimestres: string;
+  @Prop({ type: Obj })
+  risqueAge: {
+    status: string;
+    text: string;
+  };
 
-  @Prop()
-  complementaires: string;
+  @Prop({ type: Obj })
+  risqueTraindevie: {
+    status: string;
+    text: string;
+  };
 
-  @Prop()
-  supplimentaires: string;
+  @Prop({ type: Obj })
+  risqueReversion: {
+    status: string;
+    text: string;
+  };
 
   @Prop({ default: "Document" })
   type: string;

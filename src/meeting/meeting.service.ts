@@ -17,6 +17,13 @@ export class MeetingService {
     return this.MeetingModule.find();
   }
 
+  getbyToday(today: any) {
+    const regex = new RegExp(today.slice(0, 10), "i"); // i for case insensitive
+    console.log(today);
+
+    return this.MeetingModule.find({ start: { $regex: regex } });
+  }
+
   findOne(id: string) {
     return this.MeetingModule.findOne({ _id: id });
   }

@@ -18,7 +18,20 @@ export class MeetingController {
 
   @Public()
   @Post()
-  create(@Body() createMeetingDto: CreateMeetingDto) {
+  async create(@Body() createMeetingDto: CreateMeetingDto) {
+    // console.log(createMeetingDto);
+    // var sameDayEvents = await this.meetingService.getbyToday(
+    //   createMeetingDto.start
+    // );
+    // console.log(sameDayEvents);
+    // for (var i = 0; i < sameDayEvents.length; i++) {
+    //   if (
+    //     createMeetingDto.start.valueOf() >= sameDayEvents[i].start.valueOf() &&
+    //     createMeetingDto.start.valueOf() < sameDayEvents[i].end.valueOf()
+    //   ) {
+    //     return { error: "you have two meetings at the same time" };
+    //   }
+    // }
     return this.meetingService.create(createMeetingDto);
   }
 

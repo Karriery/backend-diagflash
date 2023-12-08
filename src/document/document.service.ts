@@ -27,6 +27,7 @@ export class DocumentService {
   }
 
   remove(_id: string) {
+    console.log(_id);
     return this.documentModule.deleteOne({ _id });
   }
 }
