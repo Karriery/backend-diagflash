@@ -39,7 +39,10 @@ export class DocumentController {
       "1968, et après": { ageMini: 64, trimestre: 172, age: 67 },
     };
 
-    const birthYear = createDocumentDto.anneDeNaissance;
+    var birthYear = createDocumentDto.anneDeNaissance;
+    if (birthYear === "Avant 1957") {
+      birthYear = "1957";
+    }
     if (birthYearMap.hasOwnProperty(birthYear)) {
       const values = birthYearMap[birthYear];
       ageMini = values.ageMini;
@@ -49,6 +52,9 @@ export class DocumentController {
     // His  age now
     console.log(createDocumentDto.anneDeNaissance);
     var year = createDocumentDto.anneDeNaissance.slice(0, 4);
+    if (createDocumentDto.anneDeNaissance === "Avant 1957") {
+      year = "1957";
+    }
     const birthYear2 = parseInt(year);
     const currentYear = new Date().getFullYear();
     const ageActuel = currentYear - birthYear2;
@@ -179,6 +185,9 @@ export class DocumentController {
     }
 
     /// start 4 section
+    var result4 = "";
+    if (createDocumentDto.ageSouhaiteDeDepart !== "Dès que possible") {
+    }
     /// start 5 section
     var result5 = "A17";
     if (trimesterAcquerir + trimestreActuelTheorique < 0.8 * trimestre) {
@@ -189,6 +198,13 @@ export class DocumentController {
       createDocumentDto.evolution === "Irrégulière"
     ) {
       result5 = "A11";
+    }
+    if (
+      createDocumentDto.titreIndividuel === "oui" ||
+      createDocumentDto.titreProfessionnelObligatoire === "oui" ||
+      createDocumentDto.titreProfessionnelFacultatif === "oui"
+    ) {
+      result5 = "A14";
     }
     if (
       createDocumentDto.titreIndividuel === "oui" &&
@@ -408,6 +424,10 @@ export class DocumentController {
       };
     }
     if (result6 === "A12") {
+      console.log(
+        createDocumentDto.avezVousEte,
+        createDocumentDto.avezVousEte.includes("Salarié du secteur privé")
+      );
       if (createDocumentDto.avezVousEte.includes("Salarié du secteur privé")) {
         createDocumentDto.risqueReversion = {
           status: "soleil",
@@ -445,7 +465,6 @@ export class DocumentController {
       };
     }
 
-    console.log(createDocumentDto);
     return this.documentService.create(createDocumentDto);
   }
 

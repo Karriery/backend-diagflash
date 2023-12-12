@@ -17,7 +17,7 @@ export class CreateDocumentDto {
 
   etudeSuperieure: string;
 
-  ageSouhaiteDeDepart: number;
+  ageSouhaiteDeDepart: any;
 
   ageDuDebutdactiviteProfessionnelle: string;
 
