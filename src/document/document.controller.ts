@@ -20,7 +20,7 @@ export class DocumentController {
   @Post()
   create(@Body() createDocumentDto: CreateDocumentDto) {
     var ageMini = null;
-    var trimestre = null;
+    var trimestre = null; // L30;
     var age = null;
 
     const birthYearMap = {
@@ -47,6 +47,8 @@ export class DocumentController {
       const values = birthYearMap[birthYear];
       ageMini = values.ageMini;
       trimestre = values.trimestre;
+      console.log("L30", trimestre);
+
       age = values.age;
     }
     // His  age now
@@ -64,7 +66,8 @@ export class DocumentController {
     if (createDocumentDto.civilite === "F") {
       addedValue = createDocumentDto.nombreDenfants * 8;
     }
-    var trimestreActuelTheorique = (ageActuel - age) * 4 + addedValue;
+    var trimestreActuelTheorique = (ageActuel - age) * 4 + addedValue; // L34
+    console.log("L34", trimestreActuelTheorique);
 
     // trimester
     var trimesterAcquerir =
@@ -186,7 +189,70 @@ export class DocumentController {
 
     /// start 4 section
     var result4 = "";
+    createDocumentDto.risqueAge = {
+      status: "",
+      text: "",
+    };
     if (createDocumentDto.ageSouhaiteDeDepart !== "Dès que possible") {
+      var nombreDeTrimesterMonque = (trimestre - trimestreActuelTheorique) * 4;
+      var x =
+        nombreDeTrimesterMonque / 12 + createDocumentDto.ageSouhaiteDeDepart;
+      if (x >= 62) {
+        createDocumentDto.risqueAge.status = "soleil";
+        if (
+          JSON.stringify(createDocumentDto.avezVousRencontre) ===
+            JSON.stringify([]) ||
+          JSON.stringify(createDocumentDto.avezVousRencontre) ===
+            JSON.stringify(["Congéz parental, dassistance…"])
+        ) {
+          createDocumentDto.risqueAge.text =
+            "Il faudra revérifier vos trimestres de toute façon, mais il semble que vous puissiez faire valoir vos droits à la retraite à l'âge minimal légal. Les règles peuvent changer d'ici là, donc il est indispensable de vérifier le nombre de trimestres actuel et ceux à acquérir et ensuite vérifier si on est toujours en adéquation avec les dernières évolutions des lois.";
+        }
+        if (
+          createDocumentDto.avezVousRencontre.includes(
+            "Arrêt maladie > 1 mois"
+          ) ||
+          createDocumentDto.avezVousRencontre.includes(
+            "Arrêt accident du travail"
+          ) ||
+          createDocumentDto.avezVousRencontre.includes("Invalidité") ||
+          createDocumentDto.avezVousRencontre.includes("Chômage")
+        ) {
+          createDocumentDto.risqueAge.text =
+            "Nous avons fait l'hypothèse que vos périodes non cotisées vous donnent les droits à trimestres. Dans ce cas  il semble que vous puissiez faire valoir vos droits à la retraite à l'âge minimal légal. Il est indispensable de vérifier cette hypothèse par un audit approfondi. Nous ne possédons pas à ce stade d'informations suffisantes pour être catégoriques à 100%. Les règles peuvent changer d'ici là, donc il est indispensable de vérifier le nombre de trimestres  actuels et ceux à acquérir et ensuite vérifier si on est toujours en adéquation avec les dernières évolutions des lois.";
+        }
+      } else if (x >= 67) {
+        createDocumentDto.risqueAge.status = "orage";
+        createDocumentDto.risqueAge.text = `Il semble que nous n'ayez pas suffisamment de trimestres pour pouvoir partir à la retraite au taux plein avant 67 ans. Et il semblerait que même à cet âge vous n'auriez pas la pension maximale possible. Une "chasse" aux trimestres est indispensable pour vous permettre d'optimiser votre départ. Seules des données précises et fiables permettront de vous donner une meilleure image de votre avenir retraite.`;
+      } else {
+        createDocumentDto.risqueAge.status = "nuage";
+        if (
+          JSON.stringify(createDocumentDto.avezVousRencontre) ===
+            JSON.stringify([]) ||
+          JSON.stringify(createDocumentDto.avezVousRencontre) ===
+            JSON.stringify(["Congéz parental, dassistance…"])
+        ) {
+          createDocumentDto.risqueAge.text =
+            "Avec le peu de données en notre possession, il semblerait que vous puissiez faire valoir vos droits à pension au taux plein avant 67 ans. Seul un audit approfondi des trimestres que vous avez déjà acquis pourra confirmer si vous êtes plutôt vers l'âge minimal légal (dans votre cas {insérer Q41} ans ou plus près de 67 ans. L'enjeu est important et vous pouvez économiser un certain nombre d'années de cotisation par une connaissance exacte de vos acquis.  ";
+        }
+        if (
+          createDocumentDto.avezVousRencontre.includes(
+            "Arrêt maladie > 1 mois"
+          ) ||
+          createDocumentDto.avezVousRencontre.includes(
+            "Arrêt accident du travail"
+          ) ||
+          createDocumentDto.avezVousRencontre.includes("Invalidité") ||
+          createDocumentDto.avezVousRencontre.includes("Chômage")
+        ) {
+          createDocumentDto.risqueAge.text =
+            "Nous avons fait l'hypothèse que vos périodes non cotisées vous donnent les droits à trimestres. Avec le peu de données en notre possession, il semblerait que vous puissiez faire valoir vos droits à pension au taux plein avant 67 ans mais plus tard que l'âge minimum légal { insérer Q41} ans dans votre cas. Seuls un audit approfondi des trimestres et leur chasse permettra de reconfirmer si vous êtes vers le haut ou le bas de la fourchette. L'enjeu est important et vous pouvez économiser un certain nombre d'années de cotisation par une connaissance exacte de vos acquis.  ";
+        }
+      }
+    } else {
+      createDocumentDto.risqueAge.status = "nuage";
+      createDocumentDto.risqueAge.text =
+        "pour être sûr de partir dès que possible, c'est-à-dire des que vous aurez accumulé suffisamment de trimestres pour bénéficier d'une pension à taux plein, il vous faut vous assurer qu'il n'y a pas eu d'oubli dans le recensement de vos trimestres ce qui est fréquemment le cas. Notre audit va vous permettre de retrouver tous vos trimestres et de partir le plus tôt possible à la retraite";
     }
     /// start 5 section
     var result5 = "A17";
@@ -442,7 +508,7 @@ export class DocumentController {
     }
     if (result6 === "A13") {
       createDocumentDto.risqueReversion = {
-        status: "NC",
+        status: "soleil",
         text: "Comme vous n'avez pas de conjoint ou d'ex conjoint à protéger, ce diagnostic ne vous concerne pas.",
       };
     }
@@ -454,7 +520,7 @@ export class DocumentController {
     }
     if (result6 === "A15") {
       createDocumentDto.risqueReversion = {
-        status: "NC",
+        status: "soleil",
         text: "Comme vous n'avez pas de conjoint ou d'ex conjoint à protéger, ce diagnostic ne vous concerne pas.",
       };
     }
