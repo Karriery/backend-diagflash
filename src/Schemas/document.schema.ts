@@ -99,6 +99,9 @@ export class Document {
     text: string;
   };
 
+  @Prop({ default: false })
+  archived: boolean;
+
   @Prop({ default: "Document" })
   type: string;
 }

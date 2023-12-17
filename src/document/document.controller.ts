@@ -475,6 +475,12 @@ export class DocumentController {
   }
 
   @Public()
+  @Get("archived")
+  findArchived() {
+    return this.documentService.findArchived();
+  }
+
+  @Public()
   @Get(":id")
   findOne(@Param("id") id: string) {
     return this.documentService.findOne(id);

@@ -15,7 +15,11 @@ export class DocumentService {
   }
 
   findAll() {
-    return this.documentModule.find();
+    return this.documentModule.find({ archived: false });
+  }
+
+  findArchived() {
+    return this.documentModule.find({ archived: true });
   }
 
   findOne(id: string) {
