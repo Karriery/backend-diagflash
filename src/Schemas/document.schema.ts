@@ -102,6 +102,9 @@ export class Document {
   @Prop({ default: false })
   archived: boolean;
 
+  @Prop({ default: false })
+  meetingOver: boolean;
+
   @Prop({ default: "Document" })
   type: string;
 }

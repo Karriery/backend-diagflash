@@ -70,8 +70,13 @@ export class DocumentController {
     console.log("L34", trimestreActuelTheorique);
 
     // trimester
-    var trimesterAcquerir =
-      (createDocumentDto.ageSouhaiteDeDepart - ageActuel) * 4;
+    var trimesterAcquerir = null;
+    if (createDocumentDto.ageSouhaiteDeDepart !== "Dès que possible") {
+      trimesterAcquerir =
+        (createDocumentDto.ageSouhaiteDeDepart - ageActuel) * 4;
+    } else {
+      trimesterAcquerir = (ageMini - ageActuel) * 4;
+    }
 
     // Risque trimestre
     var result = "A15";
