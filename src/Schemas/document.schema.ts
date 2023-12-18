@@ -36,7 +36,7 @@ export class Document {
   @Prop()
   etudeSuperieure: string;
 
-  @Prop()
+  @Prop({ type: String || Number })
   ageSouhaiteDeDepart: string | number;
 
   @Prop()
