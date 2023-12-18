@@ -37,7 +37,7 @@ export class Document {
   etudeSuperieure: string;
 
   @Prop()
-  ageSouhaiteDeDepart: number;
+  ageSouhaiteDeDepart: any;
 
   @Prop()
   ageDuDebutdactiviteProfessionnelle: string;
