@@ -25,6 +25,11 @@ export class DocumentService {
   findOne(id: string) {
     return this.documentModule.findOne({ _id: id });
   }
+
+  findByEmail(email: string) {
+    return this.documentModule.findOne({ email: email });
+  }
+
   update(_id: any, updateDocumentDto: UpdateDocumentDto) {
     console.log(updateDocumentDto);
     return this.documentModule.updateOne({ _id }, updateDocumentDto);

@@ -558,6 +558,12 @@ export class DocumentController {
   }
 
   @Public()
+  @Get("email/:email")
+  findOneByEmail(@Param("email") email: string) {
+    return this.documentService.findByEmail(email);
+  }
+
+  @Public()
   @Patch(":id")
   update(
     @Param("id") id: string,
