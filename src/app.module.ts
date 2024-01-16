@@ -8,7 +8,7 @@ import { MeetingModule } from './meeting/meeting.module';
 @Module({
   imports: [
     MongooseModule.forRoot(
-      "mongodb://localhost:27017/diagflash"
+      "mongodb://localhost:27017/diagflash2"
     ),
     AuthModule,
     DocumentModule,
